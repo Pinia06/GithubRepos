@@ -19,6 +19,8 @@
             android:layout_height="wrap_content"
             tools:text="Fragment title here"
             android:layout_gravity="center"
+            android:textSize="18dp"
+            android:textColor="@color/colorPrimaryDark"
             />
 
     </FrameLayout>

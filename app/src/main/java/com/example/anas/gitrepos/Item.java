@@ -6,9 +6,9 @@ public class Item {
     private String name;
     private Owner owner;
     private String description;
-    private int stargazers_count;
+    private String stargazers_count;
 
-    public Item(long id, String name, Owner owner, String description, int stargazers_count) {
+    public Item(long id, String name, Owner owner, String description, String stargazers_count) {
         this.id = id;
         this.name = name;
         this.owner = owner;
@@ -32,7 +32,7 @@ public class Item {
         return description;
     }
 
-    public int getStargazers_count() {
+    public String getStargazers_count() {
         return stargazers_count;
     }
 }

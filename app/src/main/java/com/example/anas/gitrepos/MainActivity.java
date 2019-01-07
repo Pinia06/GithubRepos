@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -21,25 +22,30 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(DEBUG_TAG,"MAIN - ONCREATE");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         mBottomNavigation = findViewById(R.id.bottom_navigation);
         titleTextView = findViewById(R.id.tv_title);
 
-        //Setting Trending Fragment as the default UI on MainActivity Creation
-        getSupportFragmentManager().beginTransaction().replace(R.id.fl_fragment_container,new TrendingFragment()).commit();
-        titleTextView.setText(TRENDING_FRAGMENT);
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
+        Log.d(DEBUG_TAG,"MAIN - ONRESUME");
 
-        setBottomNavigationBar();
+        //Setting Trending Fragment as the default UI on MainActivity Creation
+        getSupportFragmentManager().beginTransaction().add(R.id.fl_fragment_container,new TrendingFragment()).commit();
+        titleTextView.setText(TRENDING_FRAGMENT);
+
+        //Setting the bottom navigation listener
+        setBottomNavigationBarListener();
+
     }
 
-    private void setBottomNavigationBar() {
+    private void setBottomNavigationBarListener() {
 
         //Setting an onclick bottom navigation listener to choose the right fragment to be displayed
         mBottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -51,12 +57,12 @@ public class MainActivity extends AppCompatActivity {
                 switch(itemSelected){
                     //Case Trending is the selected option
                     case R.id.nav_trending : selectedFragment = new TrendingFragment();
-                                             titleTextView.setText(TRENDING_FRAGMENT);
+                        titleTextView.setText(TRENDING_FRAGMENT);
                         break;
 
                     //Case Settings is the selected option
                     case R.id.nav_settings : selectedFragment = new SettingsFragment();
-                                             titleTextView.setText(SETTINGS_FRAGMENT);
+                        titleTextView.setText(SETTINGS_FRAGMENT);
                         break;
                 }
 

@@ -32,6 +32,10 @@ dependencies {
     //Implementing Glide framework for image loading and resizing
     implementation 'com.github.bumptech.glide:glide:4.8.0'
 
+    //Implementing Paging libraries from Jetpack for pagination
+    implementation "android.arch.paging:runtime:1.0.0" //PagedList
+    implementation "android.arch.lifecycle:extensions:1.1.1" //ViewModel and LiveData
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

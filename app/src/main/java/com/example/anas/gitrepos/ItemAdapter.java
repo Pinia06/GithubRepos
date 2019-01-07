@@ -1,29 +1,40 @@
 package com.example.anas.gitrepos;
 
+import android.arch.paging.PagedListAdapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-import java.util.List;
 
-public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
+public class ItemAdapter extends PagedListAdapter<Item,ItemAdapter.ItemViewHolder> {
 
+    private static DiffUtil.ItemCallback<Item> diffCallBack = new DiffUtil.ItemCallback<Item>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Item item, @NonNull Item t1) {
+            return item.getId() == t1.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Item item, @NonNull Item t1) {
+            return item.equals(t1);
+        }
+    };
     private final String DEBUG_TAG = "ItemAdapterTAG";
-
-    private List<Item> repoList;
-    private Item currentItem;
     private Context mContext;
 
-    public ItemAdapter(Context mContext,List<Item> repoList) {
-        this.repoList = repoList;
+    protected ItemAdapter(Context mContext) {
+        super(diffCallBack);
         this.mContext = mContext;
     }
 
@@ -38,30 +49,32 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder itemViewHolder, int i) {
 
-        currentItem = repoList.get(i);
+        Item currentItem = getItem(i);
 
-        itemViewHolder.repoNameTextView.setText(currentItem.getName());
-        itemViewHolder.repoDescriptionTextView.setText(currentItem.getDescription());
-        Glide.with(mContext)
-                .load(currentItem.getOwner().getAvatar_url())
-                .apply(new RequestOptions().override(20,20))
-                .into(itemViewHolder.repoOwnerAvatar);
-        itemViewHolder.repoOwnerUsername.setText(currentItem.getOwner().getLogin());
-        itemViewHolder.repoStarsTextView.setText(currentItem.getStargazers_count());
-    }
+        if(currentItem != null) {
+            Log.d(DEBUG_TAG,"ADAPTER - ITEM FOUND");
+            itemViewHolder.repoNameTextView.setText(currentItem.getName());
+            itemViewHolder.repoDescriptionTextView.setText(currentItem.getDescription());
+            Glide.with(mContext)
+                    .load(currentItem.getOwner().getAvatar_url())
+                    .apply(new RequestOptions().override(20, 20))
+                    .into(itemViewHolder.repoOwnerAvatar);
+            itemViewHolder.repoOwnerUsername.setText(currentItem.getOwner().getLogin());
+            itemViewHolder.repoStarsTextView.setText(currentItem.getStargazers_count());
+        }
 
-    @Override
-    public int getItemCount() {
-        return repoList.size();
+        else{
+            Toast.makeText(mContext,"Item is null",Toast.LENGTH_SHORT).show();
+        }
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView repoNameTextView;
-        public TextView repoDescriptionTextView;
-        public TextView repoStarsTextView;
-        public TextView repoOwnerUsername;
-        public ImageView repoOwnerAvatar;
+         TextView repoNameTextView;
+         TextView repoDescriptionTextView;
+         TextView repoStarsTextView;
+         TextView repoOwnerUsername;
+         ImageView repoOwnerAvatar;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);

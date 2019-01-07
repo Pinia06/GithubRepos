@@ -1,5 +1,8 @@
 package com.example.anas.gitrepos;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.arch.paging.PagedList;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,63 +15,52 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 //This Fragment's role is to display the repositories
 
 public class TrendingFragment extends Fragment {
 
     private final String DEBUG_TAG = "TrendingFragmentTAG";
+
     private RecyclerView recyclerView;
+    private ItemViewModel itemViewModel;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_trending,container,false);
+
+        Log.d(DEBUG_TAG,"TRENDING - ONCREATEVIEW");
+
+        View view = inflater.inflate(R.layout.fragment_trending,container,false);
+
+        recyclerView = view.findViewById(R.id.rv_trending);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+
+        return view;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-        RetrofitClient.getmInstance()
-                .getGithubApiInterface()
-                .getRepos("created:>2019-01-04","stars","desc",1)
-                .enqueue(new Callback<GithubApiResponse>() {
-            @Override
-            public void onResponse(Call<GithubApiResponse> call, Response<GithubApiResponse> response) {
-                    Log.d(DEBUG_TAG,"ONRESPONSE");
+        Log.d(DEBUG_TAG,"TRENDING - ONACTIVITYCREATED");
 
-                    if(response.isSuccessful()){
-                        Log.d(DEBUG_TAG,"RESPONSE RECEIVED");
-                            GithubApiResponse mResponse = response.body();
-                            List<Item> repoList = new ArrayList<>();
-                            for (Item item : mResponse.getItems()) {
-                                repoList.add(item);
-                            }
+        final ItemAdapter adapter = new ItemAdapter(getContext());
+        recyclerView.setAdapter(adapter);
 
-                            ItemAdapter itemAdapter = new ItemAdapter(getContext(), repoList);
-                            recyclerView = getView().findViewById(R.id.rv_trending);
-                            recyclerView.setAdapter(itemAdapter);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                            recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-                    }
+        itemViewModel = ViewModelProviders.of(getActivity()).get(ItemViewModel.class);
 
-                    else Log.d(DEBUG_TAG,"REPONSE NOT RECEIVED");
-
-            }
+        itemViewModel.getItemPagedList().observe(getViewLifecycleOwner(), new Observer<PagedList<Item>>() {
 
             @Override
-            public void onFailure(Call<GithubApiResponse> call, Throwable t) {
-                    Log.d(DEBUG_TAG,"ONFAILURE");
-                    Log.d(DEBUG_TAG,t.getMessage());
+            public void onChanged(@Nullable PagedList<Item> items) {
+                Log.d(DEBUG_TAG,"ONCHANGED");
+                adapter.submitList(items);
             }
         });
 
     }
+
 }

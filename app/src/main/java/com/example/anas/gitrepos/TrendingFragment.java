@@ -23,6 +23,7 @@ public class TrendingFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ItemViewModel itemViewModel;
+    private ItemAdapter adapter;
 
 
     @Nullable
@@ -31,14 +32,16 @@ public class TrendingFragment extends Fragment {
 
         Log.d(DEBUG_TAG,"TRENDING - ONCREATEVIEW");
 
-        View view = inflater.inflate(R.layout.fragment_trending,container,false);
+        return inflater.inflate(R.layout.fragment_trending,container,false);
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        Log.d(DEBUG_TAG,"TRENDING - ONVIEWCREATED");
+
+        super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.rv_trending);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-
-        return view;
     }
 
     @Override
@@ -47,7 +50,11 @@ public class TrendingFragment extends Fragment {
 
         Log.d(DEBUG_TAG,"TRENDING - ONACTIVITYCREATED");
 
-        final ItemAdapter adapter = new ItemAdapter(getContext());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+
+        adapter = new ItemAdapter(getContext());
         recyclerView.setAdapter(adapter);
 
         itemViewModel = ViewModelProviders.of(getActivity()).get(ItemViewModel.class);

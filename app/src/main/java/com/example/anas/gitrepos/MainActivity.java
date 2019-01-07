@@ -19,29 +19,30 @@ public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView mBottomNavigation;
     private TextView titleTextView;
+    private Fragment selectedFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(DEBUG_TAG,"MAIN - ONCREATE");
-        super.onCreate(savedInstanceState);
+        super.onCreate(null);
         setContentView(R.layout.activity_main);
 
         mBottomNavigation = findViewById(R.id.bottom_navigation);
         titleTextView = findViewById(R.id.tv_title);
+
+        //Setting the bottom navigation listener
+        setBottomNavigationBarListener();
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(DEBUG_TAG,"MAIN - ONRESUME");
 
         //Setting Trending Fragment as the default UI on MainActivity Creation
-        getSupportFragmentManager().beginTransaction().add(R.id.fl_fragment_container,new TrendingFragment()).commit();
+        selectedFragment = new TrendingFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.fl_fragment_container,selectedFragment).commit();
         titleTextView.setText(TRENDING_FRAGMENT);
-
-        //Setting the bottom navigation listener
-        setBottomNavigationBarListener();
 
     }
 
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         mBottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                Fragment selectedFragment = null;
+                selectedFragment = null;
                 int itemSelected = menuItem.getItemId();
 
                 switch(itemSelected){

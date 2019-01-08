@@ -15,16 +15,22 @@ public class ItemDataSource extends PageKeyedDataSource<Integer,Item> {
 
     private static final int FIRST_PAGE = 1;
     private final String DEBUG_TAG = "ItemDataSourceTAG";
+    private final String sort = "stars";
+
     private String query = "created:>";
-    private String sort = "stars";
-    private String order = "desc";
+    private String order;
+
 
     public ItemDataSource() {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE,-30);
         SimpleDateFormat mFormat = new SimpleDateFormat("yyyy-MM-dd");
         String startingDate = mFormat.format(calendar.getTime());
-        query += startingDate;
+        this.query += startingDate;
+        Log.d(DEBUG_TAG,query);
+
+        Log.d(DEBUG_TAG,MainActivity.orderParam);
+        this.order = MainActivity.orderParam;
     }
 
 

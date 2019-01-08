@@ -25,6 +25,10 @@ public class TrendingFragment extends Fragment {
     private ItemViewModel itemViewModel;
     private ItemAdapter adapter;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Nullable
     @Override
@@ -57,9 +61,8 @@ public class TrendingFragment extends Fragment {
         adapter = new ItemAdapter(getContext());
         recyclerView.setAdapter(adapter);
 
-        itemViewModel = ViewModelProviders.of(getActivity()).get(ItemViewModel.class);
-
-        itemViewModel.getItemPagedList().observe(getViewLifecycleOwner(), new Observer<PagedList<Item>>() {
+        itemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
+        itemViewModel.getItemPagedList().observe(this, new Observer<PagedList<Item>>() {
 
             @Override
             public void onChanged(@Nullable PagedList<Item> items) {

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="order_pref_labels">
+        <item>@string/descending_pref_order_label</item>
+        <item>@string/ascending_pref_order_label</item>
+    </array>
+
+    <array name="order_pref_options">
+        <item>@string/descending_pref_order_value</item>
+        <item>@string/ascending_pref_order_value</item>
+    </array>
+
+</resources>

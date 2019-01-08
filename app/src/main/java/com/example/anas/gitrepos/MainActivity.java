@@ -1,6 +1,8 @@
 package com.example.anas.gitrepos;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -11,15 +13,16 @@ import android.widget.TextView;
 
 //This Activity's role is to choose the proper fragment to be displayed
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    public static String orderParam;
     private final String DEBUG_TAG = "MainActivityTAG";
     private final String TRENDING_FRAGMENT = "Trending Repositories";
     private final String SETTINGS_FRAGMENT = "App Settings";
-
     private BottomNavigationView mBottomNavigation;
     private TextView titleTextView;
     private Fragment selectedFragment;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,19 +33,17 @@ public class MainActivity extends AppCompatActivity {
         mBottomNavigation = findViewById(R.id.bottom_navigation);
         titleTextView = findViewById(R.id.tv_title);
 
-        //Setting the bottom navigation listener
-        setBottomNavigationBarListener();
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        orderParam = sharedPreferences.getString(getString(R.string.key_pref_order),getString(R.string.descending_pref_order_value));
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
         //Setting Trending Fragment as the default UI on MainActivity Creation
         selectedFragment = new TrendingFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.fl_fragment_container,selectedFragment).commit();
         titleTextView.setText(TRENDING_FRAGMENT);
+
+        //Setting the bottom navigation listener
+        setBottomNavigationBarListener();
 
     }
 
@@ -73,5 +74,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key.equals(getString(R.string.key_pref_order))) {
+            orderParam = sharedPreferences.getString(key, getString(R.string.descending_pref_order_value));
+
+        }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 }

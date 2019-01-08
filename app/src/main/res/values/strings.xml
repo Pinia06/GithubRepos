@@ -2,4 +2,14 @@
     <string name="app_name">GitRepos</string>
     <string name="trending_title">Trending</string>
     <string name="settings_title">Settings</string>
+    
+    <string name="order_pref_title">Order</string>
+
+    <string name="descending_pref_order_label">Descending</string>
+    <string name="ascending_pref_order_label">Ascending</string>
+
+    <string name="descending_pref_order_value">desc</string>
+    <string name="ascending_pref_order_value">asc</string>
+
+    <string name="key_pref_order">orderKey</string>
 </resources>

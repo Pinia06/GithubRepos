@@ -51,7 +51,7 @@ The libraries and APIs implemented in the project are :
 		Glide has been used over Picasso since it resizes images before storing them which takes less memory.
 
 * **Preference library**
-		For getting and storing the prefered order option chosed by the user.
+		For getting and storing the prefered order option choosed by the user.
 
 * **Paging library from Jetpack**
 		To be able to implement the pagination task.

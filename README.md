@@ -6,20 +6,20 @@
 
 ## Description
 
-This small application has been developed as part of a mobile coding challenge in order to get a 6 months internship at United Remote in 2019.
+This small **Android** application has been developed as part of a mobile coding challenge in order to get a 6 months internship at United Remote in 2019.
 
 The idea of the task is to implement an application that will list the most starred Github repositories that were created in the last 30 days, using the Github API.
 
 ## About the API
 
-In order to create the desired URL, here are the parameters to keep in mind are :
+In order to create the desired URL, here are the parameters to keep in mind :
 
 * **Query parameter** : Must receive the data 30 days before the current date [created:>2019-01-09]
 * **Sort parameter**  : Repositories will always be sorted by "stars"
 * **Order parameter** : By default, we must research repos in a descending order "desc", but the user can change the order to and ascending one
 * **Page parameter**  : This parameter is needed to request more data from the next page when scrolling down (Pagination)
 
-**Note :**  API only accepts **10** requests from the same IP adress per minute, and that it returns 30 repositories per page.
+**Note :**  API only accepts **10** requests from the same IP adress per minute, and it returns 30 repositories per page.
 
 More information about Github API can be found [here](https://developer.github.com/v3/search/#search-repositories)
 
@@ -29,8 +29,8 @@ The source code for the application can be found [here](https://github.com/Pinia
 
 Once cloned, the code source can be opened using Android studio in 3 simple steps :
 1. Open Android Studio
-2. Open an existing Android Studio Project
-3. Choose the folder downloaded based on the chosed destination
+2. Choose 'Open an existing Android Studio Project'
+3. Pick the folder downloaded based on the chosed destination
 
 This application was developed under Android studio 3.2.1 and was compiled under android 28 SDK version, and accepts a minimum of 21 SDK version.
 

@@ -1,4 +1,4 @@
-package com.example.anas.gitrepos;
+package com.example.anas.gitrepos.Model;
 
 public class Item {
 

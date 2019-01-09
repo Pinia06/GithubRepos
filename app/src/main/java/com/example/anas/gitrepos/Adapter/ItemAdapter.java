@@ -1,4 +1,4 @@
-package com.example.anas.gitrepos;
+package com.example.anas.gitrepos.Adapter;
 
 import android.arch.paging.PagedListAdapter;
 import android.content.Context;
@@ -15,10 +15,16 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.anas.gitrepos.Model.Item;
+import com.example.anas.gitrepos.R;
 
+//PagedListAdapter listens to PagedList loading callbacks as pages are loaded
+//It then helps present data from PagedList in a Recyclerview
+//And is notified when pages are loaded
 
 public class ItemAdapter extends PagedListAdapter<Item,ItemAdapter.ItemViewHolder> {
 
+    //This utility class calculate the difference between two items and output a list of update operations that converts the first list into the second one.
     private static DiffUtil.ItemCallback<Item> diffCallBack = new DiffUtil.ItemCallback<Item>() {
         @Override
         public boolean areItemsTheSame(@NonNull Item item, @NonNull Item t1) {
@@ -33,7 +39,9 @@ public class ItemAdapter extends PagedListAdapter<Item,ItemAdapter.ItemViewHolde
     private final String DEBUG_TAG = "ItemAdapterTAG";
     private Context mContext;
 
-    protected ItemAdapter(Context mContext) {
+
+
+    public ItemAdapter(Context mContext) {
         super(diffCallBack);
         this.mContext = mContext;
     }

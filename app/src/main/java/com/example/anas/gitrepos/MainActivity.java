@@ -11,18 +11,28 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.anas.gitrepos.View.SettingsFragment;
+import com.example.anas.gitrepos.View.TrendingFragment;
+
 //This Activity's role is to choose the proper fragment to be displayed
 
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    public static String orderParam;
+    //orderParam will get the order preference saved on the device once the activity is created, and will be used in the DataSource
+    private static String orderParam;
     private final String DEBUG_TAG = "MainActivityTAG";
     private final String TRENDING_FRAGMENT = "Trending Repositories";
     private final String SETTINGS_FRAGMENT = "App Settings";
+    private Fragment selectedFragment;
+
     private BottomNavigationView mBottomNavigation;
     private TextView titleTextView;
-    private Fragment selectedFragment;
+
     private SharedPreferences sharedPreferences;
+
+    public static String getOrderParam() {
+        return orderParam;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +43,11 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         mBottomNavigation = findViewById(R.id.bottom_navigation);
         titleTextView = findViewById(R.id.tv_title);
 
+        //Getting sharedPreferences from the PreferenceManager
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         orderParam = sharedPreferences.getString(getString(R.string.key_pref_order),getString(R.string.descending_pref_order_value));
+
+        //Registering the Preference Listener for any changes
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
         //Setting Trending Fragment as the default UI on MainActivity Creation
@@ -68,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                         break;
                 }
 
+                //Calling the Fragment chosen
                 getSupportFragmentManager().beginTransaction().replace(R.id.fl_fragment_container,selectedFragment).commit();
 
                 return true;
@@ -79,15 +93,16 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if(key.equals(getString(R.string.key_pref_order))) {
+            //Once the shared preference is updated, we update the orderParam attribute
             orderParam = sharedPreferences.getString(key, getString(R.string.descending_pref_order_value));
-
         }
     }
-
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        //Unregistering the Preference Listener once the activity is destroyed
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
     }
+
 }

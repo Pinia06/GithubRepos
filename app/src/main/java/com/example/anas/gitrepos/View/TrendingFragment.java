@@ -1,4 +1,4 @@
-package com.example.anas.gitrepos;
+package com.example.anas.gitrepos.View;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -15,6 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.anas.gitrepos.Adapter.ItemAdapter;
+import com.example.anas.gitrepos.Model.Item;
+import com.example.anas.gitrepos.R;
+import com.example.anas.gitrepos.ViewModel.ItemViewModel;
+
 //This Fragment's role is to display the repositories
 
 public class TrendingFragment extends Fragment {
@@ -25,25 +30,15 @@ public class TrendingFragment extends Fragment {
     private ItemViewModel itemViewModel;
     private ItemAdapter adapter;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        Log.d(DEBUG_TAG,"TRENDING - ONCREATEVIEW");
-
         return inflater.inflate(R.layout.fragment_trending,container,false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
-        Log.d(DEBUG_TAG,"TRENDING - ONVIEWCREATED");
-
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.rv_trending);
     }
@@ -54,14 +49,12 @@ public class TrendingFragment extends Fragment {
 
         Log.d(DEBUG_TAG,"TRENDING - ONACTIVITYCREATED");
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        configureRecyclerView();
 
-        adapter = new ItemAdapter(getContext());
-        recyclerView.setAdapter(adapter);
-
+        //We create the ItemViewModel and pass the current fragment context
         itemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
+
+        //This allows us to observe any LiveData change and approve it by the submitList method
         itemViewModel.getItemPagedList().observe(this, new Observer<PagedList<Item>>() {
 
             @Override
@@ -71,6 +64,16 @@ public class TrendingFragment extends Fragment {
             }
         });
 
+    }
+
+    private void configureRecyclerView() {
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+
+        adapter = new ItemAdapter(getContext());
+        recyclerView.setAdapter(adapter);
     }
 
 }

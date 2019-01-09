@@ -1,7 +1,9 @@
-package com.example.anas.gitrepos;
+package com.example.anas.gitrepos.View;
 
 import android.os.Bundle;
 import android.support.v7.preference.PreferenceFragmentCompat;
+
+import com.example.anas.gitrepos.R;
 
 //This Fragment's role is to let the user choose the corresponding preferences
 

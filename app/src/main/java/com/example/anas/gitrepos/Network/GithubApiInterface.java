@@ -1,4 +1,6 @@
-package com.example.anas.gitrepos;
+package com.example.anas.gitrepos.Network;
+
+import com.example.anas.gitrepos.Model.GithubApiResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

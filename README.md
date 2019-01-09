@@ -14,7 +14,7 @@ The idea of the task is to implement an application that will list the most star
 
 In order to create the desired URL, here are the parameters to keep in mind :
 
-* **Query parameter** : Must receive the data 30 days before the current date [created:>2019-01-09]
+* **Query parameter** : Must receive the date 30 days before the current one [created:>2019-01-09]
 * **Sort parameter**  : Repositories will always be sorted by "stars"
 * **Order parameter** : By default, we must research repos in a descending order "desc", but the user can change the order to and ascending one
 * **Page parameter**  : This parameter is needed to request more data from the next page when scrolling down (Pagination)

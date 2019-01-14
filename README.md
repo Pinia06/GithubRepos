@@ -44,7 +44,7 @@ The libraries and APIs implemented in the project are :
 		For the simplicity, ease of use, and compatibility with the paging library.
 
 * **Design API**
-		For adding the bottom navigation material design. 
+		For adding both the toolbar and bottom navigation material design. 
 
 * **Glide framework** 
 		To get the avatar picture of the repository owner from a URL and display it on screen.
